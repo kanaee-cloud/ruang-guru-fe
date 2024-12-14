@@ -16,7 +16,7 @@ const Job = () => {
       company: "Pable Inc.",
       location: "Bandung, Jawa Barat",
       salary: "Rp. 10.000.000",
-      description: "Ewok ewok ewok ewok ...",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus, felis non sagittis feugiat, ex odio iaculis nulla, et lobortis quam ligula in sapien. Fusce dictum nisi vitae urna rhoncus laoreet. Quisque consequat nisl non risus rhoncus, eget sollicitudin ligula mattis. Maecenas vehicula cursus tincidunt. Mauris tempus nunc vel massa sagittis, sit amet condimentum lacus molestie. Fusce scelerisque bibendum ullamcorper. Praesent tristique ultricies arcu non tincidunt. Vivamus ac massa sapien. Vestibulum consequat consectetur nisi, sed vestibulum justo mattis vitae. Phasellus eget aliquam lacus, eget lobortis arcu. Aenean quis arcu ac neque rhoncus consequat vel convallis est. Integer ac tempor dui. Nullam viverra nisl molestie, vehicula nulla sit amet, condimentum neque. Vivamus at finibus mi, vel sodales libero. Nunc vel ornare sem, ac malesuada neque. Vivamus quis convallis nisl. In hac habitasse platea dictumst. Nam quis magna varius, sagittis elit id, dictum metus. Praesent porta tincidunt dui vitae aliquam. Nam imperdiet orci erat, ut hendrerit tortor consequat ut.",
     },
     {
       id: 2,
