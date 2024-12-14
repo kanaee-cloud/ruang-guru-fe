@@ -67,12 +67,18 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden lg:flex gap-x-4 items-center">
-          <button className="text-xs md:text-sm lg:text-sm font-medium btn-primary rounded-md">
+          <a
+            href="/auth/login"
+            className="text-xs md:text-sm lg:text-sm font-medium btn-primary rounded-md"
+          >
             Login
-          </button>
-          <button className="text-xs md:text-sm lg:text-sm font-medium px-8 py-3 btn-accent rounded-md">
+          </a>
+          <a
+            href="/auth/register"
+            className="text-xs md:text-sm lg:text-sm font-medium px-8 py-3 btn-accent rounded-md"
+          >
             Sign In
-          </button>
+          </a>
         </div>
       </div>
 
@@ -90,12 +96,12 @@ const Navbar = () => {
 
         <nav className="mt-20">
           <div className="flex justify-between p-4 gap-x-4">
-          <button className="text-xs md:text-sm font-medium btn-primary rounded-md w-3/4">
-            Login
-          </button>
-          <button className="text-xs md:text-sm font-medium btn-accent rounded-md w-3/4">
-            Sign In
-          </button>
+            <button className="text-xs md:text-sm font-medium btn-primary rounded-md w-3/4">
+              Login
+            </button>
+            <button className="text-xs md:text-sm font-medium btn-accent rounded-md w-3/4">
+              Sign In
+            </button>
           </div>
           <ul className="flex flex-col items-left gap-y-6">
             <li>
