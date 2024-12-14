@@ -155,7 +155,11 @@ const Profile = () => {
                   <h1 className="font-semibold text-xl md:text-2xl">
                     About Me
                   </h1>
-                  <p className="text-sm">{profile.jobseeker.skills}</p>
+                  <p className="text-sm">
+                    {profile.jobseeker.skills.trim() !== ""
+                      ? profile.jobseeker.skills
+                      : "Add your about me"}
+                  </p>
                   <button
                     className="text-sm border border-primary px-4 py-1 rounded-lg"
                     onClick={openAboutModal}
@@ -181,7 +185,11 @@ const Profile = () => {
                   <h1 className="font-semibold text-xl md:text-2xl">
                     CV & Certifications
                   </h1>
-                  <p className="text-sm">{profile.jobseeker.cv}</p>
+                  <p className="text-sm">
+                    {profile.jobseeker.cv.trim() !== ""
+                      ? profile.jobseeker.cv
+                      : "Add your CV"}
+                  </p>
                   <button
                     className="text-sm border border-primary px-4 py-1 rounded-lg"
                     onClick={openFileModal}
