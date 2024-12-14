@@ -1,12 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-const AddAbout = ({ onClose }) => {
+const AddAbout = ({ onClose, updateSkills }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [about, setAbout] = useState(""); // State untuk menyimpan input about
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const handleSave = async () => {
+    if (about.trim() === "") {
+      alert("Please write something about yourself.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await updateSkills(about); // Memanggil fungsi untuk memperbarui skills di server
+      onClose(); // Menutup modal setelah berhasil
+    } catch (error) {
+      console.error("Error saving about:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-right">
@@ -31,6 +51,8 @@ const AddAbout = ({ onClose }) => {
           className="w-full border border-gray-300 p-2 rounded-lg mb-4"
           rows="5"
           placeholder="Write something about yourself..."
+          value={about}
+          onChange={(e) => setAbout(e.target.value)} // Mengupdate state saat input berubah
         ></textarea>
         <div className="text-sm">
           <p>
@@ -40,8 +62,12 @@ const AddAbout = ({ onClose }) => {
           </p>
         </div>
         <div className="flex justify-start mt-2">
-          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm">
-            Save
+          <button
+            className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+            onClick={handleSave}
+            disabled={loading} // Nonaktifkan tombol jika sedang memproses
+          >
+            {loading ? "Saving..." : "Save"}
           </button>
         </div>
       </div>
