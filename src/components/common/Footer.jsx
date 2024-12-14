@@ -2,14 +2,14 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='bg-white'>
-        <div className='flex justify-between items-center shadow-lg px-4 py-8'>
+    <div className='shadow-lg bg-white relative bottom-0'>
+        <div className='flex justify-between items-center px-4 py-8'>
         <div className='p-4'>
           <h1 className="font-semibold text-md sm:text-lg md:text-2xl">
             <span className="text-accents">Ruang</span>Nganggur
           </h1>
         </div>
-        <div className='flex gap-6'>
+        <div className='flex gap-6 text-sm'>
             <div>
             <p className='text-accents'>Resource</p>
             <ul>
@@ -35,7 +35,10 @@ const Footer = () => {
         </div>
         
         </div>
-        <hr />
+        <hr className='border w-full'/>
+        <div className='p-4 flex justify-center'>
+          <p className='opacity-50 text-sm'>© 2024 Infolokertng. All Rights Reserved.</p>
+        </div>
     </div>
   )
 }

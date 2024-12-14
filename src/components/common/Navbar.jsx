@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center px-8 py-7 shadow-lg bg-white">
+      <div className="flex justify-between items-center px-8 py-7 shadow-lg bg-gray-200">
         <div>
           <h1 className="font-semibold text-md sm:text-lg md:text-2xl text-center">
             <span className="text-accents">Ruang</span>Nganggur
@@ -111,7 +111,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/employee/applicant-list"
+                to="/applicant-list"
                 onClick={toggleMenu}
                 className={({ isActive }) => getNavLinkClass(isActive)}
               >
@@ -122,7 +122,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/job-posting"
+                to="/job-listing"
                 onClick={toggleMenu}
                 className={({ isActive }) => getNavLinkClass(isActive)}
               >

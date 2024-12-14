@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "../../../../components/layout/DashboardLayout";
 import { FaArrowLeft } from "react-icons/fa";
 import { CiLocationOn, CiMail } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
+import AddAbout from "../../../../components/specific/profile/AddAbout";
+import EditProfile from "../../../../components/specific/profile/EditProfile";
+import AddPosition from "../../../../components/specific/profile/AddPosition";
+import AddCV from "../../../../components/specific/profile/AddCV";
+import AddResume from "../../../../components/specific/profile/AddResume";
 
 const Profile = () => {
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isWorkModalOpen, setIsWorkModalOpen] = useState(false);
+  const [isFileModalOpen, setIsFileModalOpen] = useState(false);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+
+
+  const openAboutModal = () => setIsAboutModalOpen(true);
+  const closeAboutModal = () => setIsAboutModalOpen(false);
+
+  const openEditModal = () => setIsEditModalOpen(true);
+  const closeEditModal = () => setIsEditModalOpen(false);
+
+  const openWorkModal = () => setIsWorkModalOpen(true)
+  const closeWorkModal = () => setIsWorkModalOpen(false)
+
+  const openFileModal = () => setIsFileModalOpen(true)
+  const closeFileModal = () => setIsFileModalOpen(false)
+
+  const openResumeModal = () => setIsResumeModalOpen(true)
+  const closeResumeModal = () => setIsResumeModalOpen(false)
+
+
+
   return (
     <>
       <DashboardLayout>
@@ -25,20 +54,18 @@ const Profile = () => {
               <div className="mb-4">
                 <h1 className="font-semibold text-3xl md:text-5xl">Hi, User!</h1>
               </div>
-
               <div className="opacity-80 flex flex-col gap-y-2">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-x-2">
                   <p className="text-xs flex items-center gap-x-2">
                     <CiLocationOn />
                     Bandung, Jawa Barat
                   </p>
-                  
                 </div>
                 <p className="text-xs flex items-center gap-x-2">
                   <CiMail />
                   adam@example.com
                 </p>
-                <button className="text-sm px-4 border border-white rounded-lg">Edit</button>
+                <button onClick={openEditModal} className="text-sm px-4 border border-white rounded-lg">Edit</button>
               </div>
             </div>
           </div>
@@ -50,28 +77,52 @@ const Profile = () => {
               <div className="flex items-start flex-col gap-y-2">
                 <h1 className="font-semibold text-xl md:text-2xl">About Me</h1>
                 <p className="text-sm">Add a personal summary to your profile to introduce yourself.</p>
-                <button className="text-sm border border-primary px-4 py-1 rounded-lg">Add</button>
+                <button 
+                  className="text-sm border border-primary px-4 py-1 rounded-lg" 
+                  onClick={openAboutModal}
+                >
+                  Add
+                </button>
               </div>
               <div className="flex items-start flex-col gap-y-2">
                 <h1 className="font-semibold text-xl md:text-2xl">Work Experience</h1>
                 <p className="text-sm">Add your work experience.</p>
-                <button className="text-sm border border-primary px-4 py-1 rounded-lg">Add</button>
+                <button 
+                  className="text-sm border border-primary px-4 py-1 rounded-lg"
+                  onClick={openWorkModal}
+                  >Add
+                </button>
               </div>
             </div>
             <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
               <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">License & Certifications</h1>
-                <p className="text-sm">Add a personal license & certification.</p>
-                <button className="text-sm border border-primary px-4 py-1 rounded-lg">Add</button>
+                <h1 className="font-semibold text-xl md:text-2xl">CV & Certifications</h1>
+                <p className="text-sm">Add a personal CV & certification.</p>
+                <button 
+                  className="text-sm border border-primary px-4 py-1 rounded-lg"
+                  onClick={openFileModal}
+                >
+                  Add
+                </button>
               </div>
               <div className="flex items-start flex-col gap-y-2">
                 <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
                 <p className="text-sm">Upload your resume.</p>
-                <button className="text-sm border border-primary px-4 py-1 rounded-lg">Add</button>
+                <button 
+                  className="text-sm border border-primary px-4 py-1 rounded-lg"
+                  onClick={openResumeModal}
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>
         </div>
+        {isAboutModalOpen && <AddAbout onClose={closeAboutModal} />}
+        {isEditModalOpen && <EditProfile onClose={closeEditModal} />}
+        {isWorkModalOpen && <AddPosition onClose={closeWorkModal} />}
+        {isFileModalOpen && <AddCV onClose={closeFileModal} />}
+        {isResumeModalOpen && <AddResume onClose={closeResumeModal} />}
       </DashboardLayout>
     </>
   );
