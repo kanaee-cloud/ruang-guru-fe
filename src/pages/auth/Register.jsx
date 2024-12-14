@@ -36,7 +36,7 @@ const Register = () => {
 
     if (role === "jobseeker") {
       formData.jobseeker = {
-        first_name: e.target.first_name?.value || "",
+        first_name: e.target.firstname?.value || "",
         last_name: e.target.last_name?.value || "",
         nis: e.target.nis?.value || "",
         graduate_year: parseInt(e.target.graduate_year?.value) || null,
@@ -69,7 +69,7 @@ const Register = () => {
 
       if (response.ok) {
         const result = await response.json();
-        // console.log("Success:", result);
+        console.log("Success:", result);
         Swal.fire({
           icon: "success",
           title: "Registration Successful!",
