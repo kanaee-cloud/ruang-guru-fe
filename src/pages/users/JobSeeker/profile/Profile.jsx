@@ -16,23 +16,20 @@ const Profile = () => {
   const [isFileModalOpen, setIsFileModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
 
-
   const openAboutModal = () => setIsAboutModalOpen(true);
   const closeAboutModal = () => setIsAboutModalOpen(false);
 
   const openEditModal = () => setIsEditModalOpen(true);
   const closeEditModal = () => setIsEditModalOpen(false);
 
-  const openWorkModal = () => setIsWorkModalOpen(true)
-  const closeWorkModal = () => setIsWorkModalOpen(false)
+  const openWorkModal = () => setIsWorkModalOpen(true);
+  const closeWorkModal = () => setIsWorkModalOpen(false);
 
-  const openFileModal = () => setIsFileModalOpen(true)
-  const closeFileModal = () => setIsFileModalOpen(false)
+  const openFileModal = () => setIsFileModalOpen(true);
+  const closeFileModal = () => setIsFileModalOpen(false);
 
-  const openResumeModal = () => setIsResumeModalOpen(true)
-  const closeResumeModal = () => setIsResumeModalOpen(false)
-
-
+  const openResumeModal = () => setIsResumeModalOpen(true);
+  const closeResumeModal = () => setIsResumeModalOpen(false);
 
   return (
     <>
@@ -48,11 +45,17 @@ const Profile = () => {
         <div className="rounded-md bg-primary mt-5 py-5 px-6 md:px-14 text-white">
           <div className="flex flex-col md:flex-row gap-4 md:gap-x-6 items-center md:items-start">
             <div>
-              <img src="/assets/no-profile.png" alt="Profile" className="w-20 h-20 md:w-auto md:h-auto" />
+              <img
+                src="/assets/no-profile.png"
+                alt="Profile"
+                className="w-20 h-20 md:w-auto md:h-auto"
+              />
             </div>
             <div>
               <div className="mb-4">
-                <h1 className="font-semibold text-3xl md:text-5xl">Hi, User!</h1>
+                <h1 className="font-semibold text-3xl md:text-5xl">
+                  Hi, User!
+                </h1>
               </div>
               <div className="opacity-80 flex flex-col gap-y-2">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-x-2">
@@ -65,7 +68,12 @@ const Profile = () => {
                   <CiMail />
                   adam@example.com
                 </p>
-                <button onClick={openEditModal} className="text-sm px-4 border border-white rounded-lg">Edit</button>
+                <button
+                  onClick={openEditModal}
+                  className="text-sm px-4 border border-white rounded-lg"
+                >
+                  Edit
+                </button>
               </div>
             </div>
           </div>
@@ -76,29 +84,36 @@ const Profile = () => {
             <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
               <div className="flex items-start flex-col gap-y-2">
                 <h1 className="font-semibold text-xl md:text-2xl">About Me</h1>
-                <p className="text-sm">Add a personal summary to your profile to introduce yourself.</p>
-                <button 
-                  className="text-sm border border-primary px-4 py-1 rounded-lg" 
+                <p className="text-sm">
+                  Add a personal summary to your profile to introduce yourself.
+                </p>
+                <button
+                  className="text-sm border border-primary px-4 py-1 rounded-lg"
                   onClick={openAboutModal}
                 >
                   Add
                 </button>
               </div>
               <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">Work Experience</h1>
+                <h1 className="font-semibold text-xl md:text-2xl">
+                  Work Experience
+                </h1>
                 <p className="text-sm">Add your work experience.</p>
-                <button 
+                <button
                   className="text-sm border border-primary px-4 py-1 rounded-lg"
                   onClick={openWorkModal}
-                  >Add
+                >
+                  Add
                 </button>
               </div>
             </div>
             <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
               <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">CV & Certifications</h1>
+                <h1 className="font-semibold text-xl md:text-2xl">
+                  CV & Certifications
+                </h1>
                 <p className="text-sm">Add a personal CV & certification.</p>
-                <button 
+                <button
                   className="text-sm border border-primary px-4 py-1 rounded-lg"
                   onClick={openFileModal}
                 >
@@ -108,7 +123,7 @@ const Profile = () => {
               <div className="flex items-start flex-col gap-y-2">
                 <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
                 <p className="text-sm">Upload your resume.</p>
-                <button 
+                <button
                   className="text-sm border border-primary px-4 py-1 rounded-lg"
                   onClick={openResumeModal}
                 >
