@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../../../components/layout/DashboardLayout";
 import { FaArrowLeft } from "react-icons/fa";
 import { CiLocationOn, CiMail } from "react-icons/ci";
@@ -15,6 +15,8 @@ const Profile = () => {
   const [isWorkModalOpen, setIsWorkModalOpen] = useState(false);
   const [isFileModalOpen, setIsFileModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const openAboutModal = () => setIsAboutModalOpen(true);
   const closeAboutModal = () => setIsAboutModalOpen(false);
@@ -31,6 +33,70 @@ const Profile = () => {
   const openResumeModal = () => setIsResumeModalOpen(true);
   const closeResumeModal = () => setIsResumeModalOpen(false);
 
+  // Fetch profile data from the API
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem("access_token"); // Assuming token is stored in localStorage
+        const response = await fetch("http://localhost:8000/users/profile", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Profile data:", data); // Log the response data
+          setProfile(data);
+        } else {
+          console.error("Failed to fetch profile");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      } finally {
+        setLoading(false); // Set loading to false once data is fetched or if there is an error
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  const updateSkills = async (newSkills) => {
+    const token = localStorage.getItem("access_token");
+
+    const updatedProfile = {
+      ...profile,
+      jobseeker: {
+        ...profile.jobseeker,
+        skills: newSkills, // Update skills here
+      },
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/users/profile", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated profile:", data); // Log updated profile data
+        setProfile(data); // Update profile with new data
+      } else {
+        console.error("Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   return (
     <>
       <DashboardLayout>
@@ -46,7 +112,7 @@ const Profile = () => {
           <div className="flex flex-col md:flex-row gap-4 md:gap-x-6 items-center md:items-start">
             <div>
               <img
-                src="/assets/no-profile.png"
+                src={profile?.image || "/assets/no-profile.png"} // Display user image if available
                 alt="Profile"
                 className="w-20 h-20 md:w-auto md:h-auto"
               />
@@ -54,19 +120,19 @@ const Profile = () => {
             <div>
               <div className="mb-4">
                 <h1 className="font-semibold text-3xl md:text-5xl">
-                  Hi, User!
+                  Hi, {profile ? profile.username : "User"}!
                 </h1>
               </div>
               <div className="opacity-80 flex flex-col gap-y-2">
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-x-2">
                   <p className="text-xs flex items-center gap-x-2">
                     <CiLocationOn />
-                    Bandung, Jawa Barat
+                    {profile?.location || "Location not available"}
                   </p>
                 </div>
                 <p className="text-xs flex items-center gap-x-2">
                   <CiMail />
-                  adam@example.com
+                  {profile?.email || "Email not available"}
                 </p>
                 <button
                   onClick={openEditModal}
@@ -79,61 +145,68 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="mt-5 w-full">
-          <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-x-2">
-            <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
-              <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">About Me</h1>
-                <p className="text-sm">
-                  Add a personal summary to your profile to introduce yourself.
-                </p>
-                <button
-                  className="text-sm border border-primary px-4 py-1 rounded-lg"
-                  onClick={openAboutModal}
-                >
-                  Add
-                </button>
+        {loading ? (
+          <div className="flex justify-center mt-5">Loading profile...</div>
+        ) : (
+          <div className="mt-5 w-full">
+            <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-x-2">
+              <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
+                <div className="flex items-start flex-col gap-y-2">
+                  <h1 className="font-semibold text-xl md:text-2xl">
+                    About Me
+                  </h1>
+                  <p className="text-sm">{profile.jobseeker.skills}</p>
+                  <button
+                    className="text-sm border border-primary px-4 py-1 rounded-lg"
+                    onClick={openAboutModal}
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="flex items-start flex-col gap-y-2">
+                  <h1 className="font-semibold text-xl md:text-2xl">
+                    Work Experience
+                  </h1>
+                  <p className="text-sm">Add your work experience.</p>
+                  <button
+                    className="text-sm border border-primary px-4 py-1 rounded-lg"
+                    onClick={openWorkModal}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
-              <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">
-                  Work Experience
-                </h1>
-                <p className="text-sm">Add your work experience.</p>
-                <button
-                  className="text-sm border border-primary px-4 py-1 rounded-lg"
-                  onClick={openWorkModal}
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-            <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
-              <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">
-                  CV & Certifications
-                </h1>
-                <p className="text-sm">Add a personal CV & certification.</p>
-                <button
-                  className="text-sm border border-primary px-4 py-1 rounded-lg"
-                  onClick={openFileModal}
-                >
-                  Add
-                </button>
-              </div>
-              <div className="flex items-start flex-col gap-y-2">
-                <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
-                <p className="text-sm">Upload your resume.</p>
-                <button
-                  className="text-sm border border-primary px-4 py-1 rounded-lg"
-                  onClick={openResumeModal}
-                >
-                  Add
-                </button>
+              <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
+                <div className="flex items-start flex-col gap-y-2">
+                  <h1 className="font-semibold text-xl md:text-2xl">
+                    CV & Certifications
+                  </h1>
+                  <p className="text-sm">{profile.jobseeker.cv}</p>
+                  <button
+                    className="text-sm border border-primary px-4 py-1 rounded-lg"
+                    onClick={openFileModal}
+                  >
+                    Add
+                  </button>
+                </div>
+                <div className="flex items-start flex-col gap-y-2">
+                  <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
+                  <p className="text-sm">Upload your resume.</p>
+                  <button
+                    className="text-sm border border-primary px-4 py-1 rounded-lg"
+                    onClick={openResumeModal}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {isAboutModalOpen && <AddAbout onClose={closeAboutModal} />}
+        )}
+
+        {isAboutModalOpen && (
+          <AddAbout onClose={closeAboutModal} updateSkills={updateSkills} />
+        )}
         {isEditModalOpen && <EditProfile onClose={closeEditModal} />}
         {isWorkModalOpen && <AddPosition onClose={closeWorkModal} />}
         {isFileModalOpen && <AddCV onClose={closeFileModal} />}
