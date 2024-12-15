@@ -62,7 +62,7 @@ const About = () => {
               <h1 className="text-6xl">Join Our Journey</h1>
             </div>
             <NavLink
-            to="/auth/register">
+            to="/auth">
             <div className="mx-auto flex justify-center">
               <button className="btn-accent py-2 px-4 rounded-lg w-1/2">
                 Register

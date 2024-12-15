@@ -5,7 +5,7 @@ const Auth = () => {
   return (
     <>
       <section className="bg-gradient flex flex-col lg:flex-row w-full">
-        <div className=" lg:block h-[95vh] w-full lg:w-1/2 p-4">
+        <div className=" lg:block h-[95vh] w-full lg:w-1/2 p-16">
           {/* <img 
             src="/assets/auth-landing.png" 
             alt="Auth Landing" 
@@ -24,14 +24,14 @@ const Auth = () => {
 
             <div className="w-full sm:w-3/4 flex justify-between flex-col sm:flex-row gap-6 mt-14">
               <a 
-                href='/auth/login'
+                href='/auth/register/employer'
                 className="w-full bg-accents text-center text-white px-10 py-4 rounded-full text-base sm:text-lg">
-                Login
+                Employer
               </a>
               <a 
-                href='/auth/register'
+                href='/auth/register/jobseeker'
                 className="w-full bg-primary text-white text-center px-10 py-4 rounded-full text-base sm:text-lg">
-                Sign In
+                Job Seeker
               </a>
             </div>
           </div>

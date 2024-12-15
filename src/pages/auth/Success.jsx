@@ -19,7 +19,7 @@ const Success = () => {
             <p className='text-sm sm:text-base mt-2'>Welcome back, User! We glad to have you here.</p>
             
             <a 
-              href="/auth/login" 
+              href="/users/profile" 
               className='block w-full btn-primary  py-3 mt-8 rounded-full'
             >
               Continue

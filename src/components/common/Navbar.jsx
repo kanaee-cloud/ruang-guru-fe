@@ -74,7 +74,7 @@ const Navbar = () => {
             Login
           </a>
           <a
-            href="/auth/register"
+            href="/auth"
             className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-accent rounded-md"
           >
             Sign Up

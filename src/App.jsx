@@ -20,7 +20,8 @@ import EmployeeProfile from "./pages/users/Employee/profile/Profile.jsx";
 import EmployeeApplicant from "./pages/users/Employee/applicant/Applicant.jsx";
 import EmployeeCompany from "./pages/users/Employee/company/Company.jsx";
 import EmployeeSettings from "./pages/users/Employee/settings/Settings.jsx";
-
+import EmployeeJobPosting from "./pages/users/Employee/job-posting/JobPosting.jsx";
+import EmployeeeRegister from "./pages/auth/RegisterEmployee.jsx";
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
 
         <Route path="/auth" element={<Auth />}></Route>
         <Route path="/auth/login" element={<Login />}></Route>
-        <Route path="/auth/register" element={<Register />}></Route>
+        <Route path="/auth/register/jobseeker" element={<Register />}></Route>
+        <Route path="/auth/register/employer" element={<EmployeeeRegister />}></Route>
         <Route path="/auth/logout" element={<Logout />}></Route>
         <Route path="/auth/success" element={<Success />}></Route>
 
@@ -49,6 +51,7 @@ function App() {
 
         {/* Employee Dashboard */}
         <Route path="/users/employee/profile" element={<EmployeeProfile />}></Route>
+        <Route path="/users/employee/job-posting" element={<EmployeeJobPosting />}></Route>
         <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />}></Route>
         <Route path="/users/employee/company" element={<EmployeeCompany />}></Route>
         <Route path="/users/employee/settings" element={<EmployeeSettings />}></Route>
