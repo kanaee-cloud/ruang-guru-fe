@@ -8,7 +8,7 @@ const Job = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // Tambahkan state untuk currentPage
 
-  const totalEntries = 8; // Total entries adalah 8
+  const totalEntries = 0; // Total entries adalah 8
   const jobList = [
     {
       id: 1,
@@ -76,7 +76,7 @@ const Job = () => {
     },
   ];
 
-  const jobsPerPage = 2;
+  const jobsPerPage = 8;
   const totalPages = totalEntries;
 
   // Filter data untuk halaman saat ini
@@ -119,7 +119,7 @@ const Job = () => {
           </div>
         </div>
 
-        <div className="p-10 grid lg:grid-cols-2 gap-6">
+        <div className="p-10 grid lg:grid-cols-4 gap-6">
           {currentJobs.map((job) => (
             <JobCard
               key={job.id}

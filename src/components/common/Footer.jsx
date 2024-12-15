@@ -9,25 +9,18 @@ const Footer = () => {
             <span className="text-accents">Ruang</span>Nganggur
           </h1>
         </div>
-        <div className='flex gap-6 text-sm'>
+        <div className='flex gap-10 text-sm mr-6'>
             <div>
-            <p className='text-accents'>Resource</p>
-            <ul>
-                <li>Dropship</li>
-                <li>Manufacture</li>
-            </ul>
-            </div>
-            <div>
-            <p className='text-accents'>Company</p>
-            <ul>
+            <p className='text-accents mb-2'>Company</p>
+            <ul className='flex flex-col gap-y-1'>
                 <li>About Us</li>
                 <li>Blog</li>
                 <li>Careers</li>
             </ul>
             </div>
             <div>
-            <p className='text-accents'>Contact Us</p>
-            <ul>
+            <p className='text-accents mb-2'>Contact Us</p>
+            <ul className='flex flex-col gap-y-1'>
                 <li>Email</li>
                 <li>Hotmail</li>
             </ul>
@@ -37,7 +30,7 @@ const Footer = () => {
         </div>
         <hr className='border w-full'/>
         <div className='p-4 flex justify-center'>
-          <p className='opacity-50 text-sm'>© 2024 Infolokertng. All Rights Reserved.</p>
+          <p className='opacity-50 text-sm'>© 2024 RuangNganggur. All Rights Reserved.</p>
         </div>
     </div>
   )

@@ -100,7 +100,7 @@ const Register = () => {
   return (
     <>
       <section className="bg-gradient flex flex-col lg:flex-row w-full h-screen">
-        <div className="hidden lg:block h-[95vh] w-full lg:w-1/2 p-5">
+        <div className="hidden lg:block h-[95vh] w-full lg:w-1/2 p-16">
           <AuthSwiper />
         </div>
 
@@ -109,6 +109,7 @@ const Register = () => {
             <div className="w-full sm:w-3/4 sm:flex-row gap-4 mt-10 bg-white shadow-md">
               <div className="flex flex-col justify-center p-7">
                 <div className=" flex flex-col mx-auto text-center">
+                  
                   <h1 className="font-semibold">Create An Account</h1>
                 </div>
                 <form

@@ -1,6 +1,7 @@
 import React from "react";
 import LandingLayout from "../../../../components/layout/LandingLayout";
 import HomeSwiper from "../../../../components/common/HomeSwiper";
+import { NavLink } from "react-router-dom";
 
 const About = () => {
   return (
@@ -20,7 +21,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className="shadow-lg w-full flex flex-col lg:flex-row lg:items-center py-14">
+        <div className="bg-[#F4F7FA] shadow-lg w-full flex flex-col lg:flex-row lg:items-center py-14">
           <div className="lg:w-1/2 px-6 md:px-14 tracking-widest font-medium text-lg md:text-xl text-center lg:text-left">
             <p>
               Lebih dari 12.000 pencari kerja telah mempercayakan{" "}
@@ -37,7 +38,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className="border-2 shadow-lg w-full flex flex-col lg:flex-row lg:items-center py-14">
+        <div className="border-2 bg-[#EBF1F6] shadow-lg w-full flex flex-col lg:flex-row lg:items-center py-14">
           <div className="justify-end mt-5 lg:mt-0 lg:w-1/2 flex bg-primary rounded-r-[20px] md:rounded-r-[40px] items-center text-white p-6 gap-x-4">
             <div className="text-center mx-auto text-2xl md:text-6xl tracking-widest font-medium">
               <h1 className="">12.000+</h1>
@@ -55,16 +56,19 @@ const About = () => {
           </div>
         </div>
 
-        <div className="shadow-lg tracking-widest font-semibold flex flex-col items-center justify-center">
+        <div className="shadow-lg bg-[#E8EDF1] tracking-widest font-semibold flex flex-col items-center justify-center">
           <div className="py-10">
             <div className="py-8">
               <h1 className="text-6xl">Join Our Journey</h1>
             </div>
+            <NavLink
+            to="/auth/register">
             <div className="mx-auto flex justify-center">
               <button className="btn-accent py-2 px-4 rounded-lg w-1/2">
                 Register
               </button>
             </div>
+            </NavLink>
           </div>
         </div>
       </LandingLayout>

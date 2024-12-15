@@ -4,8 +4,8 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 const getNavLinkClass = (isActive) => {
   return isActive
-    ? "py-1 bg-accents rounded-lg"
-    : "hover:bg-accents py-1 transition-all rounded-lg";
+    ? "py-2 bg-accents rounded-lg"
+    : "hover:bg-accents py-2 transition-all rounded-lg";
 };
 
 const Navbar = () => {
@@ -45,16 +45,6 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/applicant-list"
-                className={({ isActive }) => getNavLinkClass(isActive)}
-              >
-                <span className="px-4 py-3 text-sm tracking-widest font-medium">
-                  Applicant List
-                </span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
                 to="/job-listing"
                 className={({ isActive }) => getNavLinkClass(isActive)}
               >
@@ -63,21 +53,31 @@ const Navbar = () => {
                 </span>
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/applicant-list"
+                className={({ isActive }) => getNavLinkClass(isActive)}
+              >
+                <span className="px-4 py-3 text-sm tracking-widest font-medium">
+                  Applicant List
+                </span>
+              </NavLink>
+            </li>
           </ul>
         </nav>
 
-        <div className="hidden lg:flex gap-x-4 items-center">
+        <div className="hidden lg:flex gap-x-3 items-center">
           <a
             href="/auth/login"
-            className="text-xs md:text-sm lg:text-sm font-medium btn-primary rounded-md"
+            className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
           >
             Login
           </a>
           <a
             href="/auth/register"
-            className="text-xs md:text-sm lg:text-sm font-medium px-8 py-3 btn-accent rounded-md"
+            className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-accent rounded-md"
           >
-            Sign In
+            Sign Up
           </a>
         </div>
       </div>
@@ -93,52 +93,6 @@ const Navbar = () => {
         >
           <FaTimes />
         </button>
-
-        <nav className="mt-20">
-          <div className="flex justify-between p-4 gap-x-4">
-            <button className="text-xs md:text-sm font-medium btn-primary rounded-md w-3/4">
-              Login
-            </button>
-            <button className="text-xs md:text-sm font-medium btn-accent rounded-md w-3/4">
-              Sign In
-            </button>
-          </div>
-          <ul className="flex flex-col items-left gap-y-6">
-            <li>
-              <NavLink
-                to="/"
-                onClick={toggleMenu}
-                className={({ isActive }) => getNavLinkClass(isActive)}
-              >
-                <span className="px-4 py-3 text-sm tracking-widest font-medium">
-                  Home
-                </span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/applicant-list"
-                onClick={toggleMenu}
-                className={({ isActive }) => getNavLinkClass(isActive)}
-              >
-                <span className="px-4 py-3 text-sm tracking-widest font-medium">
-                  Applicant List
-                </span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/job-listing"
-                onClick={toggleMenu}
-                className={({ isActive }) => getNavLinkClass(isActive)}
-              >
-                <span className="px-4 py-3 text-sm tracking-widest font-medium">
-                  Job Posting
-                </span>
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
       </div>
     </>
   );

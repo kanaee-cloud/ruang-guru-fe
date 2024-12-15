@@ -67,7 +67,7 @@ const Login = () => {
   return (
     <>
       <section className="bg-gradient flex flex-col lg:flex-row w-full h-screen">
-        <div className="hidden lg:block h-[95vh] w-full lg:w-1/2 p-5">
+        <div className=" lg:block h-full w-full lg:w-1/2 p-16">
           <AuthSwiper />
         </div>
 

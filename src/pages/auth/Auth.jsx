@@ -5,7 +5,7 @@ const Auth = () => {
   return (
     <>
       <section className="bg-gradient flex flex-col lg:flex-row w-full">
-        <div className="hidden lg:block h-[95vh] w-full lg:w-1/2 p-4">
+        <div className=" lg:block h-[95vh] w-full lg:w-1/2 p-4">
           {/* <img 
             src="/assets/auth-landing.png" 
             alt="Auth Landing" 

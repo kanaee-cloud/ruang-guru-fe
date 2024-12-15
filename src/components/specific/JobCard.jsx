@@ -10,8 +10,8 @@ const JobCard = ({ title, company, location, salary, description, onDetailClick 
   }
 
   return (
-    <div className="lg:w-[50vh] bg-primary text-white px-4 py-4 tracking-widest rounded-[20px]">
-      <div className="p-2 mb-2">
+    <div className="lg:w-[420px] bg-primary text-white p-6 tracking-widest rounded-[20px]">
+      <div className="mb-2">
         <h1 className="lg:text-2xl font-medium">{title}</h1>
         <p className="flex items-center gap-x-2 text-xs">
           <FaBuilding className="text-accents" />

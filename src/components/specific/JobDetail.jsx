@@ -27,11 +27,11 @@ const JobDetail = ({ job, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="tracking-widest w-[800px] h-[600px] bg-primary text-white p-6 rounded-lg overflow-y-auto">
-        <div className="bg-[#2c3b63] p-4 rounded-md flex justify-between">
+      <div className="w-[1100px] h-[600px] bg-primary text-white p-5 rounded-2xl overflow-y-hidden">
+        <div className="bg-[#2c3b63] h-[20%] p-4 rounded-xl flex justify-between items-center">
           <div>
-            <h1 className="lg:text-2xl font-medium">{job.title}</h1>
-            <p className="flex items-center gap-x-2 text-xs">
+            <h1 className="lg:text-4xl font-medium mb-3">{job.title}</h1>
+            <p className="flex items-center gap-x-2 text-xl">
               <FaBuilding className="text-accents" />
               {job.company}
             </p>
@@ -40,37 +40,37 @@ const JobDetail = ({ job, onClose }) => {
             <IoMdClose size={25} />
           </button>
         </div>
-        <div className="mt-2 lg:flex justify-between gap-4">
-          <div className="bg-[#2c3b63] p-4 py-6 lg:w-1/2 rounded-md">
-            <p>Detail Pekerjaan</p>
-            <div className="py-4">
+        <div className="h-[78%] w-full mt-3 lg:flex gap-x-3">
+          <div className="bg-[#2c3b63] w-2/3 p-4 rounded-xl">
+            <p className="text-2xl font-medium mb-2">Detail Pekerjaan</p>
+            <div className="flex flex-col gap-y-1">
               <div className="flex justify-between items-center">
-                <h1 className="flex items-center gap-x-2">
+                <h1 className="flex items-center gap-x-2 text-lg">
                   <FaMapMarkedAlt className="text-accents" />
                   Lokasi : {job.location}
                 </h1>
               </div>
               <div>
-                <h1 className="flex items-center gap-x-2">
-                  <AiOutlineDollar className="text-accents" />
+                <h1 className="flex items-center gap-x-2 text-lg">
+                  <AiOutlineDollar className="text-accents " />
                   Perkiraan Gaji : {job.salary}
                 </h1>
               </div>
               <div>
-                <h1 className="flex items-center gap-x-2 mb-2">
+                <h1 className="flex items-center gap-x-2 mb-3 text-lg">
                   <IoDocumentTextOutline className="text-accents" /> Deskripsi
                 </h1>
-                <p className="text-xs opacity-65 bg-[#E1ECFF] text-primary p-4 rounded-md">
+                <p className="h-[260px] text-base opacity-65 bg-[#E1ECFF] text-primary p-4 rounded-md overflow-auto">
                   {job.description}
                 </p>
               </div>
             </div>
           </div>
-          <div>
+          <div className="w-1/2 p-4 bg-[#2c3b63] rounded-lg">
             <div className="text-primary">
               {/* <h1>click</h1> */}
-              <div className="bg-blue-100 rounded-lg p-6">
-                <div className="border-2 border-yellow-500 border-dashed rounded-lg p-6 text-center bg-white">
+              <div className=" bg-blue-100 rounded-lg p-4 flex flex-col gap-y-6 align-middle">
+                <div className="w-full border-2 border-yellow-500 border-dashed rounded-lg p-6 text-center bg-white">
                   <p className="text-gray-700 mb-2">
                     Drop your file or click to upload
                   </p>
@@ -92,7 +92,7 @@ const JobDetail = ({ job, onClose }) => {
                     Browse
                   </button>
                 </div>
-                <div id="fileList" className="mt-6">
+                <div id="fileList" className="max-h-[100px] overflow-y-auto">
                   {files.map((fileWrapper, index) => (
                     <div
                       key={index}
