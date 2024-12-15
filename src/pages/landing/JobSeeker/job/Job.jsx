@@ -119,7 +119,7 @@ const Job = () => {
           </div>
         </div>
 
-        <div className="p-10 grid lg:grid-cols-4 gap-6">
+        <div className="p-10 grid lg:grid-cols-3 gap-6">
           {currentJobs.map((job) => (
             <JobCard
               key={job.id}

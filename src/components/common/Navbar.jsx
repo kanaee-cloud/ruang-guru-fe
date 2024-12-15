@@ -1,15 +1,50 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 const getNavLinkClass = (isActive) => {
   return isActive
-    ? "py-2 bg-accents rounded-lg"
-    : "hover:bg-accents py-2 transition-all rounded-lg";
+    ? "block px-2 py-2 bg-accents rounded-lg"
+    : "block px-2 hover:bg-orange-400 py-2 transition-all rounded-lg";
 };
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [profile, setProfile] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    console.log("Token:", token);
+    console.log("Headers:", {
+      Authorization: `Bearer ${token}`,
+    });
+    setIsLoggedIn(!!token);
+
+    if (token) {
+      fetch("http://localhost:8000/users/profile", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Profile data:", data);
+          setProfile(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching profile:", error);
+        });
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    setIsLoggedIn(false);
+    navigate("/auth/logout");
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -66,20 +101,39 @@ const Navbar = () => {
           </ul>
         </nav>
 
-        <div className="hidden lg:flex gap-x-3 items-center">
-          <a
-            href="/auth/login"
-            className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
-          >
-            Login
-          </a>
-          <a
-            href="/auth"
-            className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-accent rounded-md"
-          >
-            Sign Up
-          </a>
-        </div>
+
+        
+          <div className="hidden lg:flex gap-x-3 items-center rounded-lg ">
+          {isLoggedIn ? (
+              <>
+              <a href="/users/profile" >
+                <img
+                  src={profile?.image || "/assets/no-profile.png"}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                {/* <p className="text-sm font-medium tracking-widest">
+                  {profile ? profile.username : "User"}
+                </p> */}
+                {/* <button
+                onClick={handleLogout}
+                className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
+              >
+                Logout
+              </button> */}
+              </a>
+              </>
+            ) : (
+              <>
+                <a
+                  href="/auth"
+                  className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
+                >
+                  Get Started
+                </a>
+              </>
+            )}
+          </div>
       </div>
 
       <div
@@ -93,6 +147,64 @@ const Navbar = () => {
         >
           <FaTimes />
         </button>
+
+        <ul className="flex flex-col mt-16">
+          <li className="mb-2">
+            <div className="flex gap-x-3 items-center hover:bg-gray-400 bg-gray-300 py-2 rounded-lg px-4">
+              {isLoggedIn ? (
+                <>
+                  <img
+                    src={profile?.image || "/assets/no-profile.png"}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <p className="text-sm font-medium tracking-widest">
+                    {profile ? profile.username : "User"}
+                  </p>
+                  {/* <button
+                onClick={handleLogout}
+                className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
+              >
+                Logout
+              </button> */}
+                </>
+              ) : (
+                <>
+                  <a
+                    href="/auth"
+                    className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
+                  >
+                    Get Started
+                  </a>
+                </>
+              )}
+            </div>
+          </li>
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) => getNavLinkClass(isActive)}
+            >
+              About Us
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/job-listing"
+              className={({ isActive }) => getNavLinkClass(isActive)}
+            >
+              Job Listing
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/applicant-list"
+              className={({ isActive }) => getNavLinkClass(isActive)}
+            >
+              Applicant List
+            </NavLink>
+          </li>
+        </ul>
       </div>
     </>
   );

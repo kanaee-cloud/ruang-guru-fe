@@ -12,7 +12,7 @@ const getNavLinks = (isActive) => {
 const Sidebar = () => {
   return (
     <>
-      <nav className="w-1/5 shadow-lg text-white bg-primary h-screen">
+      <nav className="w-1/5 shadow-lg text-white bg-primary h-[100vh]">
         <div className="py-10 text-center">
           <h1>RuangNganggur</h1>
         </div>

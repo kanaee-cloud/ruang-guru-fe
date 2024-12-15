@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import Sidebar from "../common/Sidebar";
+import Sidebar from "../common/Sidebar";
 import SidebarEmployee from "../common/SidebarEmployee";
 
 const DashboardLayout = ({ children }) => {
@@ -39,8 +39,8 @@ const DashboardLayout = ({ children }) => {
   return (
     <div className="flex">
       {/* Conditionally render Sidebar based on profile.role */}
-      {/* {profile?.role === "jobseeker" ? <Sidebar /> : <SidebarEmployee />} */}
-      <SidebarEmployee />
+      {profile?.role === "jobseeker" ? <Sidebar /> : <SidebarEmployee />}
+      {/* <Sidebar /> */}
       <section className="py-8 px-7 w-full h-screen relative">{children}</section>
     </div>
   );

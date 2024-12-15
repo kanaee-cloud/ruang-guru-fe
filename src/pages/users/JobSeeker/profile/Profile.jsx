@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../../../components/layout/DashboardLayout";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaRegEdit  } from "react-icons/fa";
 import { CiLocationOn, CiMail } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 import AddAbout from "../../../../components/specific/profile/AddAbout";
@@ -149,39 +149,36 @@ const Profile = () => {
           <div className="flex justify-center mt-5">Loading profile...</div>
         ) : (
           <div className="mt-5 w-full">
-            <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-x-2">
-              <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
-                <div className="flex items-start flex-col gap-y-2">
+            <div className="flex flex-col items-start gap-4 lg:gap-x-2">
+              <div className="bg-white shadow-lg rounded-md w-full  p-5 md:p-10 flex flex-col gap-y-10">
+                <div className="flex flex-col items-start  gap-y-2">
                   <h1 className="font-semibold text-xl md:text-2xl">
                     About Me
                   </h1>
-                  <p className="text-sm">
-                    {profile.jobseeker.skills.trim() !== ""
-                      ? profile.jobseeker.skills
-                      : "Add your about me"}
-                  </p>
-                  <button
-                    className="text-sm border border-primary px-4 py-1 rounded-lg"
-                    onClick={openAboutModal}
-                  >
-                    Add
-                  </button>
+                  <div className="text-sm">
+                    {profile.jobseeker.skills.trim() !== "" ? (
+                      <div className="border opacity-65 flex items-center justify-between gap-x-2 border-primary rounded-lg p-4">
+                        <p>{profile.jobseeker.skills}</p>
+                        <button><FaRegEdit /></button>
+                      </div>
+                      
+                    ) : (
+                      <>
+                        <p>Add your skills</p>
+                        <button
+                          className="text-sm border border-primary px-4 py-1 rounded-lg"
+                          onClick={openAboutModal}
+                        >
+                          Add
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-start flex-col gap-y-2">
-                  <h1 className="font-semibold text-xl md:text-2xl">
-                    Work Experience
-                  </h1>
-                  <p className="text-sm">Add your work experience.</p>
-                  <button
-                    className="text-sm border border-primary px-4 py-1 rounded-lg"
-                    onClick={openWorkModal}
-                  >
-                    Add
-                  </button>
-                </div>
+              
               </div>
-              <div className="bg-white w-full lg:w-1/2 p-5 md:p-10 flex flex-col gap-y-10">
-                <div className="flex items-start flex-col gap-y-2">
+              <div className=" w-full gap-4  flex justify-between">
+                <div className="bg-white shadow-lg rounded-md w-1/2 p-5 flex items-start flex-col gap-y-2">
                   <h1 className="font-semibold text-xl md:text-2xl">
                     CV & Certifications
                   </h1>
@@ -197,7 +194,7 @@ const Profile = () => {
                     Add
                   </button>
                 </div>
-                <div className="flex items-start flex-col gap-y-2">
+                <div className="bg-white rounded-md shadow-lg w-1/2 p-5 flex items-start flex-col gap-y-2">
                   <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
                   <p className="text-sm">Upload your resume.</p>
                   <button
