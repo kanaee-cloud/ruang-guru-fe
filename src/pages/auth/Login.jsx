@@ -122,7 +122,7 @@ const Login = () => {
                       Remember Me
                     </label>
                   </div>
-                  <button type="submit" className="btn-primary">
+                  <button type="submit" className="btn-primary py-2 px-5">
                     Login
                   </button>
                   <div className="flex items-center opacity-50 w-full">

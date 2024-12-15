@@ -16,6 +16,12 @@ import Settings from "./pages/users/JobSeeker/settings/Settings.jsx";
 // import Applicant from './pages/employee/applicant/Applicant.jsx';
 // import Job from './pages/employee/job/Job.jsx';
 
+import EmployeeProfile from "./pages/users/Employee/profile/Profile.jsx";
+import EmployeeApplicant from "./pages/users/Employee/applicant/Applicant.jsx";
+import EmployeeCompany from "./pages/users/Employee/company/Company.jsx";
+import EmployeeSettings from "./pages/users/Employee/settings/Settings.jsx";
+
+
 function App() {
   return (
     <Router>
@@ -40,6 +46,13 @@ function App() {
         <Route path="/users/profile" element={<Profile />}></Route>
         <Route path="/users/job-applied" element={<Applied />}></Route>
         <Route path="/users/settings" element={<Settings />}></Route>
+
+        {/* Employee Dashboard */}
+        <Route path="/users/employee/profile" element={<EmployeeProfile />}></Route>
+        <Route path="/users/employee/job-applicant" element={<EmployeeApplicant />}></Route>
+        <Route path="/users/employee/company" element={<EmployeeCompany />}></Route>
+        <Route path="/users/employee/settings" element={<EmployeeSettings />}></Route>
+
       </Routes>
     </Router>
   );

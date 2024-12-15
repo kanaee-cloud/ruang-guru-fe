@@ -192,7 +192,7 @@ const Register = () => {
                       onChange={handleChange}
                     />
                   </div>
-                  <button type="submit" className="btn-primary">
+                  <button type="submit" className="btn-primary py-2 px-5">
                     Register
                   </button>
                   <div className="flex items-center opacity-50 w-full">
