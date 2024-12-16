@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../../../components/layout/DashboardLayout";
-import { FaArrowLeft, FaRegEdit  } from "react-icons/fa";
+import { FaArrowLeft, FaRegEdit } from "react-icons/fa";
 import { CiLocationOn, CiMail } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
 import AddAbout from "../../../../components/specific/profile/AddAbout";
@@ -24,7 +24,7 @@ const Profile = () => {
   const openEditModal = () => setIsEditModalOpen(true);
   const closeEditModal = () => setIsEditModalOpen(false);
 
-  const openWorkModal = () => setIsWorkModalOpen(true);
+  // const openWorkModal = () => setIsWorkModalOpen(true);
   const closeWorkModal = () => setIsWorkModalOpen(false);
 
   const openFileModal = () => setIsFileModalOpen(true);
@@ -159,12 +159,13 @@ const Profile = () => {
                     {profile.jobseeker.skills.trim() !== "" ? (
                       <div className="border opacity-65 flex items-center justify-between gap-x-2 border-primary rounded-lg p-4">
                         <p>{profile.jobseeker.skills}</p>
-                        <button><FaRegEdit /></button>
+                        <button onClick={openAboutModal}>
+                          <FaRegEdit />
+                        </button>
                       </div>
-                      
                     ) : (
                       <>
-                        <p>Add your skills</p>
+                        <p>Add your about</p>
                         <button
                           className="text-sm border border-primary px-4 py-1 rounded-lg"
                           onClick={openAboutModal}
@@ -175,7 +176,6 @@ const Profile = () => {
                     )}
                   </div>
                 </div>
-              
               </div>
               <div className=" w-full gap-4  flex justify-between">
                 <div className="bg-white shadow-lg rounded-md w-1/2 p-5 flex items-start flex-col gap-y-2">
