@@ -19,7 +19,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("access_token"); // Assuming token is stored in localStorage
+        const token = localStorage.getItem("access_token"); 
         const response = await fetch("http://localhost:8000/users/profile", {
           method: "GET",
           headers: {
