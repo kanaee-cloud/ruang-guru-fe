@@ -97,6 +97,10 @@ const Profile = () => {
     }
   };
 
+  // if (profile == null) {
+  //   window.location.href = "/users/profile";
+  // }
+
   return (
     <>
       <DashboardLayout>
@@ -120,7 +124,7 @@ const Profile = () => {
             <div>
               <div className="mb-4">
                 <h1 className="font-semibold text-3xl md:text-5xl">
-                  Hi, {profile ? profile.company_name : "User"}!
+                  Hi, {profile ? profile.employer.company_name : "User"}!
                 </h1>
               </div>
               <div className="opacity-80 flex flex-col gap-y-2">

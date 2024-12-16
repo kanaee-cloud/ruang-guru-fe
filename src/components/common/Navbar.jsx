@@ -106,7 +106,7 @@ const Navbar = () => {
         <div className="hidden lg:flex gap-x-3 items-center rounded-lg ">
           {profile == 200 ? (
             <>
-              <a href="/users/profile">
+              <a href="/auth/success">
                 <img
                   src={profile?.image || "/assets/no-profile.png"}
                   alt="Profile"

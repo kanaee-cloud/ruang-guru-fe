@@ -97,6 +97,10 @@ const Profile = () => {
     }
   };
 
+  // if (profile == null) {
+  //   window.location.href = "/users/employee/profile";
+  // }
+
   return (
     <>
       <DashboardLayout>
