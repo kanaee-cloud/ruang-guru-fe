@@ -5,30 +5,103 @@ import { NavLink } from "react-router-dom";
 
 const JobPosting = () => {
   const [formData, setFormData] = useState({
+    id: 0,
+    employer_id: 0,
     role: "",
     location: "",
-    salary: "",
-    type_job: "",
-    min_age: 18,
-    max_age: 60,
-    gender: "",
+    salary: 0,
+    type_job: "full_time", // Default value
+    min_age: 0,
+    max_age: 0,
+    gender: "male", // Default value
     open_date: "",
     close_date: "",
+    description: "",
   });
 
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevState) => ({
+      ...prevState,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Job Listing:", formData);
-    alert("Job listing submitted successfully!");
-    // Here you can add logic to submit the form data to an API
+
+    // Ambil token dari localStorage
+    const token = localStorage.getItem("access_token");
+
+    try {
+      // Pertama, ambil data profile pengguna
+      const profileResponse = await fetch(
+        "http://localhost:8000/users/profile",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!profileResponse.ok) {
+        throw new Error("Failed to fetch user profile");
+      }
+
+      const profileData = await profileResponse.json();
+      const employerId = profileData.employer?.id; // Mendapatkan employer_id dari data profil
+
+      if (!employerId) {
+        throw new Error("Employer not found in user profile");
+      }
+
+      // Perbarui formData dengan employer_id yang valid
+      const updatedFormData = {
+        ...formData,
+        employer_id: employerId, // Menambahkan employer_id ke formData
+      };
+
+      // Lanjutkan untuk mengirim request posting pekerjaan
+      const jobResponse = await fetch("http://localhost:8000/jobs/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedFormData),
+      });
+
+      if (jobResponse.ok) {
+        const data = await jobResponse.json();
+        alert("Job posting created successfully!");
+        console.log("Job Data:", data);
+        // Reset form
+        setFormData({
+          id: 0,
+          employer_id: employerId, // Employer ID tetap
+          role: "",
+          location: "",
+          salary: 0,
+          type_job: "full_time",
+          min_age: 0,
+          max_age: 0,
+          gender: "male",
+          open_date: "",
+          close_date: "",
+          description: "",
+        });
+      } else {
+        const errorData = await jobResponse.json();
+        console.error("Job posting error:", errorData);
+        alert("Failed to create job posting. Please check your input.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while processing the job posting.");
+    }
   };
 
   return (
@@ -44,7 +117,7 @@ const JobPosting = () => {
         </div>
 
         {/* Job Posting Form */}
-        <div className="bg-white max-h-[85vh] overflow-y-hidden p-6 md:p-10 rounded-md shadow-md">
+        <div className="bg-white max-h-[85vh] overflow-y-auto p-6 md:p-10 rounded-md shadow-md">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col">
               <label htmlFor="role" className="font-medium text-sm mb-1">
@@ -98,16 +171,18 @@ const JobPosting = () => {
               <label htmlFor="type_job" className="font-medium text-sm mb-1">
                 Type of Job
               </label>
-              <input
-                type="text"
+              <select
                 id="type_job"
                 name="type_job"
                 value={formData.type_job}
                 onChange={handleChange}
-                placeholder="e.g., Full-Time, Part-Time"
                 className="border border-gray-300 rounded-lg p-2"
                 required
-              />
+              >
+                <option value="full_time">Full Time</option>
+                <option value="part_time">Part Time</option>
+                <option value="internship">Internship</option>
+              </select>
             </div>
 
             <div className="flex gap-x-6">
@@ -158,7 +233,6 @@ const JobPosting = () => {
                 className="border border-gray-300 rounded-lg p-2"
                 required
               >
-                <option value="">Select gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
