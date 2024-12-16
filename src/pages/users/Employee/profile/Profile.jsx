@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../../../components/layout/DashboardLayout";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaRegEdit } from "react-icons/fa";
 import { CiLocationOn, CiMail } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
-import AddAbout from "../../../../components/specific/profile/AddAbout";
+import AddAbout from "../../../../components/specific/employee/AddAbout";
 import EditProfile from "../../../../components/specific/profile/EditProfile";
 import AddPosition from "../../../../components/specific/profile/AddPosition";
 import AddCV from "../../../../components/specific/profile/AddCV";
@@ -63,14 +63,14 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  const updateSkills = async (newSkills) => {
+  const updateSkills = async (newDesc) => {
     const token = localStorage.getItem("access_token");
 
     const updatedProfile = {
       ...profile,
-      jobseeker: {
-        ...profile.jobseeker,
-        skills: newSkills, // Update skills here
+      employer: {
+        ...profile.employer,
+        company_description: newDesc, // Update skills here
       },
     };
 
@@ -160,18 +160,26 @@ const Profile = () => {
                 <h1 className="font-semibold text-xl md:text-2xl">
                   About Company
                 </h1>
-                <p className="text-sm">Add Your Company Description</p>
-                <p className="text-sm">
-                  {profile
-                    ? profile.company_description
-                    : "Add your Company Description"}
-                </p>
-                <button
-                  className="text-sm border border-primary px-4 py-1 rounded-lg"
-                  onClick={openAboutModal}
-                >
-                  Add
-                </button>
+                <div className="text-sm">
+                  {profile.employer.company_description.trim() !== "" ? (
+                    <div className="border opacity-65 flex items-center justify-between gap-x-2 border-primary rounded-lg p-4">
+                      <p>{profile.employer.company_description}</p>
+                      <button onClick={openAboutModal}>
+                        <FaRegEdit />
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <p>Add your about</p>
+                      <button
+                        className="text-sm border border-primary px-4 py-1 rounded-lg"
+                        onClick={openAboutModal}
+                      >
+                        Add
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

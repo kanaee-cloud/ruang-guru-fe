@@ -50,7 +50,7 @@ const AddAbout = ({ onClose, updateSkills }) => {
         <textarea
           className="w-full border border-gray-300 p-2 rounded-lg mb-4"
           rows="5"
-          placeholder="Write something about yourself..."
+          placeholder="Write something about company..."
           value={about}
           onChange={(e) => setAbout(e.target.value)} // Mengupdate state saat input berubah
         ></textarea>

@@ -132,6 +132,38 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteCV = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const updatedProfile = {
+        ...profile,
+        jobseeker: {
+          ...profile.jobseeker,
+          cv: "", 
+        },
+      };
+
+      const response = await fetch("http://localhost:8000/users/profile", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data);
+      } else {
+        console.error("Failed to delete resume");
+      }
+    } catch (error) {
+      console.error("Error deleting resume:", error);
+    }
+  };
+
   return (
     <>
       <DashboardLayout>
@@ -224,7 +256,7 @@ const Profile = () => {
                     </div>
                     <p className="text-sm opacity-70">Added 10 minutes ago</p>
                     
-                    <button onClick={handleDeleteResume} className="w-1/2 text-red-500 border-2 rounded-md border-red-700">Delete</button>
+                    <button onClick={handleDeleteCV} className="w-1/2 text-red-500 border-2 rounded-md border-red-700">Delete</button>
                   </div>
                 ) : (
                   <button onClick={openFileModal} className="text-sm border border-primary px-4 py-1 rounded-lg">

@@ -24,7 +24,7 @@ const EditEmail = ({ onClose, currentEmail, onUpdateEmail }) => {
 
    
     onUpdateEmail(email);
-    onclose()
+    onClose()
   };
 
   return (
