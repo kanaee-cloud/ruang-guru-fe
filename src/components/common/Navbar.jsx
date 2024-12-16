@@ -151,7 +151,7 @@ const Navbar = () => {
         <ul className="flex flex-col mt-16">
           <li className="mb-2">
             <div className="flex gap-x-3 items-center hover:bg-gray-400 bg-gray-300 py-2 rounded-lg px-4">
-              {isLoggedIn ? (
+              {profile == 200 ? (
                 <>
                   <img
                     src={profile?.image || "/assets/no-profile.png"}

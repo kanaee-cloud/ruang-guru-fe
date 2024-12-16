@@ -127,7 +127,9 @@ const Profile = () => {
                 <div className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-x-2">
                   <p className="text-xs flex items-center gap-x-2">
                     <CiLocationOn />
-                    {profile ? profile.company_address : "Location not available"}
+                    {profile
+                      ? profile.company_address
+                      : "Location not available"}
                   </p>
                 </div>
                 <p className="text-xs flex items-center gap-x-2">
@@ -156,7 +158,9 @@ const Profile = () => {
                 </h1>
                 <p className="text-sm">Add Your Company Description</p>
                 <p className="text-sm">
-                  {profile ? profile.company_description : "Add your Company Description"}
+                  {profile
+                    ? profile.company_description
+                    : "Add your Company Description"}
                 </p>
                 <button
                   className="text-sm border border-primary px-4 py-1 rounded-lg"
@@ -182,4 +186,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

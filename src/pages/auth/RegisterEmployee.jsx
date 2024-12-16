@@ -8,7 +8,7 @@ const Register = () => {
     username: "",
     password: "",
     company_name: "",
-    company_phone_number: ""
+    company_phone_number: "",
   });
 
   const handleChange = (e) => {
@@ -22,47 +22,55 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Tentukan role: "employer" atau "jobseeker"
     const role = "employer";
-    const formData = {
+
+    const payload = {
       username: e.target.username.value || "",
       password: e.target.password.value || "",
       email: e.target.email.value || "",
+      is_superadmin: false,
       registered_at: new Date().toISOString(),
       disabled: false,
-      jobseeker: null,
-      employer: null,
+      role: role,
     };
 
-    if (role === "jobseeker") {
-      formData.jobseeker = {
+    // Tambahkan data sesuai role
+    if (role === "employer") {
+      payload.employer = {
+        company_name: e.target.company_name?.value || "",
+        company_description: e.target.company_description?.value || "",
+        company_phone_number: e.target.company_phone_number?.value || "",
+        company_address: e.target.company_address?.value || "",
+        company_vision: e.target.company_vision?.value || "",
+        company_mission: e.target.company_mission?.value || "",
+      };
+    } else if (role === "jobseeker") {
+      payload.jobseeker = {
         first_name: e.target.firstname?.value || "",
         last_name: e.target.last_name?.value || "",
         nis: e.target.nis?.value || "",
         graduate_year: parseInt(e.target.graduate_year?.value) || null,
-        phone_number: e.target.phone_number?.value || "11111111111111111",
+        phone_number: e.target.phone_number?.value || "",
         resume: e.target.resume?.value || "",
         cv: e.target.cv?.value || "",
         portfolio: e.target.portfolio?.value || "",
         skills: e.target.skills?.value || "",
       };
-    } else if (role === "employer") {
-      formData.employer = {
-        company_name: e.target.company_name?.value || "",
-        company_description: e.target.company_description?.value || "",
-        company_phone_number: e.target.company_phone_number?.value || "1111111111111111",
-        company_address: e.target.company_address?.value || "",
-        company_vision: e.target.company_vision?.value || "",
-        company_mission: e.target.company_mission?.value || "",
-      };
     }
 
+    // Pastikan tidak ada data tambahan yang dikirim
+    if (role === "jobseeker") delete payload.employer;
+    if (role === "employer") delete payload.jobseeker;
+
+    // Kirim request ke API
     try {
       const response = await fetch("http://localhost:8000/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -75,7 +83,7 @@ const Register = () => {
         });
       } else {
         const error = await response.json();
-        // console.error("Error:", error);
+        console.error("Error:", error);
         const errorMessage = error.detail
           .map((err) => `${err.loc[1]}: ${err.msg}`)
           .join("\n");
@@ -86,7 +94,7 @@ const Register = () => {
         });
       }
     } catch (error) {
-      // console.error("Error:", error);
+      console.error("Server error:", error);
       Swal.fire({
         icon: "error",
         title: "Server Error",
@@ -107,7 +115,6 @@ const Register = () => {
             <div className="w-full sm:w-3/4 sm:flex-row gap-4 mt-10 bg-white shadow-md">
               <div className="flex flex-col justify-center p-7">
                 <div className=" flex flex-col mx-auto text-center">
-                  
                   <h1 className="font-semibold">Create An Account</h1>
                 </div>
                 <form
@@ -160,8 +167,12 @@ const Register = () => {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label htmlFor="company_phone_number" className="font-semibold text-xs">
-                      Company Phone Number <span className="text-red-600">*</span>
+                    <label
+                      htmlFor="company_phone_number"
+                      className="font-semibold text-xs"
+                    >
+                      Company Phone Number{" "}
+                      <span className="text-red-600">*</span>
                     </label>
                     <input
                       name="company_phone_number"
