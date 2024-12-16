@@ -22,9 +22,8 @@ const EditEmail = ({ onClose, currentEmail, onUpdateEmail }) => {
       return;
     }
 
-    // Call the onUpdateEmail function passed as a prop
+   
     onUpdateEmail(email);
-    onClose();
   };
 
   return (
@@ -82,6 +81,9 @@ const EditEmail = ({ onClose, currentEmail, onUpdateEmail }) => {
           </button>
         </div>
       </div>
+      <p className="text-sm text-gray-500 mb-6">
+  Current email: <span className="font-medium">{currentEmail}</span>
+</p>
     </div>
   );
 };

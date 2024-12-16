@@ -52,7 +52,7 @@ const Settings = () => {
       ...profile,
       jobseeker: {
         ...profile.jobseeker,
-        email: newEmail, // Update skills here
+        email: newEmail, 
       },
     };
 
@@ -69,7 +69,11 @@ const Settings = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated email:", data); // Log updated profile data
+        console.log("Updated email:", data);
+        console.log("Fetching profile...");
+        console.log("Updated Email Object:", updatedEmail);
+
+        // Log updated profile data
         setProfile(data); // Update profile with new data
       } else {
         console.error("Failed to update email");
