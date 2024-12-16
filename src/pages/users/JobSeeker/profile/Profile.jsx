@@ -34,6 +34,8 @@ const Profile = () => {
   const openResumeModal = () => setIsResumeModalOpen(true);
   const closeResumeModal = () => setIsResumeModalOpen(false);
 
+  
+
   // Fetch profile data from the API
   useEffect(() => {
     const fetchProfile = async () => {
@@ -71,7 +73,7 @@ const Profile = () => {
       ...profile,
       jobseeker: {
         ...profile.jobseeker,
-        skills: newSkills, // Update skills here
+        skills: newSkills, 
       },
     };
 
@@ -98,18 +100,17 @@ const Profile = () => {
     }
   };
 
-  const updateResume = async (newResumeUrl) => {
-    const token = localStorage.getItem("access_token");
-
-    const updatedProfile = {
-      ...profile,
-      jobseeker: {
-        ...profile.jobseeker,
-        resume: newResumeUrl, // Update resume URL here
-      },
-    };
-
+  const handleDeleteResume = async () => {
     try {
+      const token = localStorage.getItem("access_token");
+      const updatedProfile = {
+        ...profile,
+        jobseeker: {
+          ...profile.jobseeker,
+          resume: "", 
+        },
+      };
+
       const response = await fetch("http://localhost:8000/users/profile", {
         method: "PUT",
         headers: {
@@ -122,14 +123,12 @@ const Profile = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated profile:", data);
-        setProfile(data); // Update profile with new data
-        setResumeUrl(newResumeUrl); // Update resume URL in state
+        setProfile(data);
       } else {
-        console.error("Failed to update profile");
+        console.error("Failed to delete resume");
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error deleting resume:", error);
     }
   };
 
@@ -218,32 +217,37 @@ const Profile = () => {
                   <h1 className="font-semibold text-xl md:text-2xl">
                     CV & Certifications
                   </h1>
-                  <p className="text-sm">
-                    {profile.jobseeker.cv.trim() !== ""
-                      ? profile.jobseeker.cv
-                      : "Add your CV"}
-                  </p>
-                  <button
-                    className="text-sm border border-primary px-4 py-1 rounded-lg"
-                    onClick={openFileModal}
-                  >
-                    Add
+                  {profile?.jobseeker?.cv? (
+                  <div className="border w-3/4 bg-primary text-white gap-y-2 px-8 py-4 flex flex-col rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <a href={profile? profile.jobseeker.cv : ""} className="text-lg">CV {profile?.username}.pdf</a>
+                    </div>
+                    <p className="text-sm opacity-70">Added 10 minutes ago</p>
+                    
+                    <button onClick={handleDeleteResume} className="w-1/2 text-red-500 border-2 rounded-md border-red-700">Delete</button>
+                  </div>
+                ) : (
+                  <button onClick={openFileModal} className="text-sm border border-primary px-4 py-1 rounded-lg">
+                    Add 
                   </button>
+                )}
                 </div>
                 <div className="bg-white rounded-md shadow-lg w-1/2 p-5 flex items-start flex-col gap-y-2">
                   <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
-                  <p className="text-sm">
-                    {profile.jobseeker.cv.trim() !== ""
-                      ? profile.jobseeker.cv
-                      : "Add your CV"}
-                  </p>
-                  
-                  <button
-                    className="text-sm border border-primary px-4 py-1 rounded-lg"
-                    onClick={openResumeModal}
-                  >
-                    Add
+                  {profile?.jobseeker?.resume? (
+                  <div className="border w-3/4 bg-primary text-white gap-y-2 px-8 py-4 flex flex-col rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <a href={profile? profile.jobseeker.resume : ""} className="text-lg">Resume {profile?.username}.pdf</a>
+                    </div>
+                    <p className="text-sm opacity-70">Added 10 minutes ago</p>
+                    
+                    <button onClick={handleDeleteResume} className="w-1/2 text-red-500 border-2 rounded-md border-red-700">Delete</button>
+                  </div>
+                ) : (
+                  <button onClick={openResumeModal} className="text-sm border border-primary px-4 py-1 rounded-lg">
+                    Add 
                   </button>
+                )}
                 </div>
               </div>
             </div>
@@ -255,8 +259,8 @@ const Profile = () => {
         )}
         {isEditModalOpen && <EditProfile onClose={closeEditModal} />}
         {isWorkModalOpen && <AddPosition onClose={closeWorkModal} />}
-        {isFileModalOpen && <AddCV onClose={closeFileModal} />}
-        {isResumeModalOpen && <AddResume onClose={closeResumeModal}/>}
+        {isFileModalOpen && <AddCV onClose={closeFileModal} setProfile={setProfile} profile={profile}/>}
+        {isResumeModalOpen && <AddResume onClose={closeResumeModal} setProfile={setProfile} profile={profile} />}
       </DashboardLayout>
     </>
   );

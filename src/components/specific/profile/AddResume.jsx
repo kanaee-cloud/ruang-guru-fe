@@ -1,22 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
-// import { AiFillFilePdf, AiFillDelete } from "react-icons/ai"; // Icon for PDF and delete
-// import { FaRegTrashAlt } from "react-icons/fa";
+import React, { useState } from "react";
 
-const AddResume = ({ onClose, updateProfile }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [resumeUrl, setResumeUrl] = useState(null);
- 
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+const AddResume = ({ onClose, setProfile, profile }) => {
+  const [resumeUrl, setResumeUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("access_token");
+
+    if (!resumeUrl.trim()) {
+      alert("Please enter a valid Google Drive URL.");
+      return;
+    }
 
     try {
+      setIsSubmitting(true);
+      const token = localStorage.getItem("access_token");
+      const updatedProfile = {
+        ...profile,
+        jobseeker: {
+          ...profile.jobseeker,
+          resume: resumeUrl, 
+        },
+      };
+
       const response = await fetch("http://localhost:8000/users/profile", {
         method: "PUT",
         headers: {
@@ -24,58 +30,60 @@ const AddResume = ({ onClose, updateProfile }) => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          resume: resumeUrl, // Send the resume URL to the API
-        }),
+        body: JSON.stringify(updatedProfile),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Updated profile with resume:", data);
-        updateProfile(data); // Update the profile state with the new data
-        onClose(); // Close the modal after successful submission
+        setProfile(data);
+        onClose();
       } else {
         console.error("Failed to update resume");
       }
     } catch (error) {
       console.error("Error updating resume:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-right"
-   
-    >
-      <div
-        className={`bg-white p-6 py-12 rounded-lg w-full max-w-md transform transition-transform duration-300 ${
-          isVisible ? "translate-x-0" : "-translate-x-10"
-        }`}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-semibold">
-            Add Resume
-          </h2>
-          <button className="text-xl" onClick={onClose}>
-            <IoMdClose size={30} />
-          </button>
-        </div>
-        <p>Upload</p>
-        
-
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col">
-              <label>Resume Url</label>
-              <input 
-                type="text" 
-                className="py-2 px-4 text-sm border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-primary"
-                onChange={(e) => setResumeUrl(e.target.value)}
-                />
-            </div>
-          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm mt-4">
-            Save
-          </button>
-          </form>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg w-96">
+        <h2 className="text-xl font-semibold mb-4">Add Resume</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="resumeUrl" className="block font-medium mb-1">
+              Google Drive URL
+            </label>
+            <input
+              type="url"
+              id="resumeUrl"
+              className="w-full border border-gray-300 rounded-lg p-2"
+              value={resumeUrl}
+              onChange={(e) => setResumeUrl(e.target.value)}
+              placeholder="Enter your Google Drive URL"
+              required
+            />
+          </div>
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              className="px-4 py-2 bg-gray-400 text-white rounded-lg"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-primary text-white rounded-lg"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

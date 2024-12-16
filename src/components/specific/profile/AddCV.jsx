@@ -1,149 +1,89 @@
-import React, { useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import { AiFillFilePdf, AiFillDelete } from "react-icons/ai"; // Icon for PDF and delete
-import { FaRegTrashAlt } from "react-icons/fa";
+import React, { useState } from "react";
 
-const AddCV = ({ onClose }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [files, setFiles] = useState([]);
+const AddCV = ({ onClose, setProfile, profile }) => {
+  const [cvUrl, setCvUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleFileDrop = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+    if (!cvUrl.trim()) {
+      alert("Please enter a valid Google Drive URL.");
+      return;
+    }
 
-    const newFiles = Array.from(event.dataTransfer.files).map((file) => ({
-      file,
-      progress: 0, // Initial progress
-      isUploaded: false,
-    }));
+    try {
+      setIsSubmitting(true);
+      const token = localStorage.getItem("access_token");
+      const updatedProfile = {
+        ...profile,
+        jobseeker: {
+          ...profile.jobseeker,
+          cv: cvUrl, 
+        },
+      };
 
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    simulateUpload(newFiles);
-  };
+      const response = await fetch("http://localhost:8000/users/profile", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProfile),
+      });
 
-  const handleFileSelect = (event) => {
-    const newFiles = Array.from(event.target.files).map((file) => ({
-      file,
-      progress: 0, // Initial progress
-      isUploaded: false,
-    }));
-
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    simulateUpload(newFiles);
-  };
-
-  const simulateUpload = (fileList) => {
-    fileList.forEach((fileObj, index) => {
-      const interval = setInterval(() => {
-        setFiles((prevFiles) => {
-          const updatedFiles = [...prevFiles];
-          const fileIndex = updatedFiles.findIndex(
-            (f) => f.file.name === fileObj.file.name
-          );
-
-          if (fileIndex !== -1) {
-            updatedFiles[fileIndex].progress += 10; // Simulate upload progress
-            if (updatedFiles[fileIndex].progress >= 100) {
-              clearInterval(interval);
-              updatedFiles[fileIndex].progress = 100;
-              updatedFiles[fileIndex].isUploaded = true;
-            }
-          }
-          return updatedFiles;
-        });
-      }, 500); // Update every 500ms
-    });
-  };
-
-  const handleCancelUpload = (fileName) => {
-    setFiles((prevFiles) =>
-      prevFiles.filter((file) => file.file.name !== fileName)
-    );
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data);
+        onClose();
+      } else {
+        console.error("Failed to update cv");
+      }
+    } catch (error) {
+      console.error("Error updating cv:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-right"
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={handleFileDrop}
-    >
-      <div
-        className={`bg-white p-6 py-12 rounded-lg w-full max-w-md transform transition-transform duration-300 ${
-          isVisible ? "translate-x-0" : "-translate-x-10"
-        }`}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-semibold">
-            Add CV or Ceritificate
-          </h2>
-          <button className="text-xl" onClick={onClose}>
-            <IoMdClose size={30} />
-          </button>
-        </div>
-        <p>Upload</p>
-        <div
-          className="border-2 h-[40vh] flex justify-center items-center border-gray-300 p-6 text-center rounded-lg mb-4 hover:bg-gray-100 cursor-pointer"
-          onClick={() => document.getElementById("fileInput").click()}
-        >
-          <div className="flex flex-col text-center">
-            <p className="text-sm font-medium">
-              Drop your files here or click upload
-            </p>
-            <p className="text-xs opacity-50 font-medium">
-              Supported file type : PDF
-            </p>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white p-6 rounded-lg w-96">
+        <h2 className="text-xl font-semibold mb-4">Add CV</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="resumeUrl" className="block font-medium mb-1">
+              Google Drive URL
+            </label>
+            <input
+              type="url"
+              id="resumeUrl"
+              className="w-full border border-gray-300 rounded-lg p-2"
+              value={cvUrl}
+              onChange={(e) => setCvUrl(e.target.value)}
+              placeholder="Enter your Google Drive URL"
+              required
+            />
           </div>
-          <input
-            id="fileInput"
-            type="file"
-            className="hidden"
-            multiple
-            onChange={handleFileSelect}
-          />
-        </div>
-
-        <ul className="space-y-2">
-          {files.map((fileObj, index) => (
-            <li
-              key={index}
-              className="flex items-center space-x-4 border border-gray-200 p-4 rounded-lg"
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              className="px-4 py-2 bg-gray-400 text-white rounded-lg"
+              onClick={onClose}
+              disabled={isSubmitting}
             >
-                <AiFillFilePdf
-                    size={25}
-                    className="text-red-500"
-                />
-                <div className="flex-1">
-                <p className="text-sm truncate">{fileObj.file.name}</p>
-              </div>
-              {fileObj.isUploaded ? (
-                <FaRegTrashAlt
-                  size={15}
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => handleCancelUpload(fileObj.file.name)}
-                />
-              ) : (
-                <div className="relative w-10 h-10 flex items-center justify-center">
-                  <div className="absolute w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                  <button
-                    className="absolute text-primary"
-                    onClick={() => handleCancelUpload(fileObj.file.name)}
-                  >
-                    <IoMdClose size={16} />
-                  </button>
-                </div>
-              )}
-              
-            </li>
-            
-          ))}
-           <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm">
-            Save
-          </button>
-        </ul>
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-primary text-white rounded-lg"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
