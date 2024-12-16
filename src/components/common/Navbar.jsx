@@ -16,10 +16,10 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-    console.log("Token:", token);
-    console.log("Headers:", {
-      Authorization: `Bearer ${token}`,
-    });
+    // console.log("Token:", token);
+    // console.log("Headers:", {
+    //   Authorization: `Bearer ${token}`,
+    // });
     setIsLoggedIn(!!token);
 
     if (token) {
@@ -29,7 +29,7 @@ const Navbar = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((response) => response.json())
+        .then((response) => response.status)
         .then((data) => {
           console.log("Profile data:", data);
           setProfile(data);
@@ -37,6 +37,8 @@ const Navbar = () => {
         .catch((error) => {
           console.error("Error fetching profile:", error);
         });
+    } else {
+      localStorage.setItem("access_token", "0");
     }
   }, []);
 
@@ -101,12 +103,10 @@ const Navbar = () => {
           </ul>
         </nav>
 
-
-        
-          <div className="hidden lg:flex gap-x-3 items-center rounded-lg ">
-          {isLoggedIn ? (
-              <>
-              <a href="/users/profile" >
+        <div className="hidden lg:flex gap-x-3 items-center rounded-lg ">
+          {profile == 200 ? (
+            <>
+              <a href="/users/profile">
                 <img
                   src={profile?.image || "/assets/no-profile.png"}
                   alt="Profile"
@@ -122,18 +122,18 @@ const Navbar = () => {
                 Logout
               </button> */}
               </a>
-              </>
-            ) : (
-              <>
-                <a
-                  href="/auth"
-                  className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
-                >
-                  Get Started
-                </a>
-              </>
-            )}
-          </div>
+            </>
+          ) : (
+            <>
+              <a
+                href="/auth"
+                className="text-xs md:text-sm lg:text-sm font-medium px-8 py-2 btn-primary rounded-md"
+              >
+                Get Started
+              </a>
+            </>
+          )}
+        </div>
       </div>
 
       <div
