@@ -1,90 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LandingLayout from "../../../../components/layout/LandingLayout";
 import JobCard from "../../../../components/specific/JobCard";
 import JobDetail from "../../../../components/specific/JobDetail";
-import Pagination from "../../../../components/common/Pagination"; // Import Pagination
+import Pagination from "../../../../components/common/Pagination";
 
 const Job = () => {
+  const [jobs, setJobs] = useState([]); // State untuk menyimpan data job dari API
   const [selectedJob, setSelectedJob] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1); // Tambahkan state untuk currentPage
-
-  const totalEntries = 0; // Total entries adalah 8
-  const jobList = [
-    {
-      id: 1,
-      title: "Android Developer",
-      company: "Pable Inc.",
-      location: "Bandung, Jawa Barat",
-      salary: "Rp. 10.000.000",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus, felis non sagittis feugiat, ex odio iaculis nulla, et lobortis quam ligula in sapien. Fusce dictum nisi vitae urna rhoncus laoreet. Quisque consequat nisl non risus rhoncus, eget sollicitudin ligula mattis. Maecenas vehicula cursus tincidunt. Mauris tempus nunc vel massa sagittis, sit amet condimentum lacus molestie. Fusce scelerisque bibendum ullamcorper. Praesent tristique ultricies arcu non tincidunt. Vivamus ac massa sapien. Vestibulum consequat consectetur nisi, sed vestibulum justo mattis vitae. Phasellus eget aliquam lacus, eget lobortis arcu. Aenean quis arcu ac neque rhoncus consequat vel convallis est. Integer ac tempor dui. Nullam viverra nisl molestie, vehicula nulla sit amet, condimentum neque. Vivamus at finibus mi, vel sodales libero. Nunc vel ornare sem, ac malesuada neque. Vivamus quis convallis nisl. In hac habitasse platea dictumst. Nam quis magna varius, sagittis elit id, dictum metus. Praesent porta tincidunt dui vitae aliquam. Nam imperdiet orci erat, ut hendrerit tortor consequat ut.",
-    },
-    {
-      id: 2,
-      title: "Frontend Developer",
-      company: "Tech Solution",
-      location: "Jakarta, DKI Jakarta",
-      salary: "Rp. 12.000.000",
-      description: "Membuat dan mengelola UI/UX aplikasi web ...",
-    },
-    {
-      id: 3,
-      title: "Backend Developer",
-      company: "CodeWorks",
-      location: "Surabaya, Jawa Timur",
-      salary: "Rp. 15.000.000",
-      description: "Membangun dan mengelola API serta server ...",
-    },
-    {
-      id: 4,
-      title: "UX Designer",
-      company: "CreativeHub",
-      location: "Jakarta, DKI Jakarta",
-      salary: "Rp. 10.500.000",
-      description: "Bertanggung jawab atas desain UX produk ...",
-    },
-    {
-      id: 5,
-      title: "Data Analyst",
-      company: "DataMinds",
-      location: "Depok, Jawa Barat",
-      salary: "Rp. 12.000.000",
-      description: "Mengolah data untuk menghasilkan insight ...",
-    },
-    {
-      id: 6,
-      title: "Software Engineer",
-      company: "TechSolution",
-      location: "Jakarta, DKI Jakarta",
-      salary: "Rp. 15.000.000",
-      description: "Membangun aplikasi web yang berkualitas ...",
-    },
-    {
-      id: 7,
-      title: "Project Manager",
-      company: "SoftServe",
-      location: "Bandung, Jawa Barat",
-      salary: "Rp. 20.000.000",
-      description: "Mengelola proyek pengembangan perangkat lunak ...",
-    },
-    {
-      id: 8,
-      title: "IT Support",
-      company: "HelpDesk",
-      location: "Surabaya, Jawa Timur",
-      salary: "Rp. 8.000.000",
-      description: "Menyediakan dukungan teknis kepada pengguna ...",
-    },
-  ];
-
+  const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 8;
-  const totalPages = totalEntries;
+
+  // Fungsi untuk mengambil data dari API
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/jobs/", {
+          headers: { accept: "application/json" },
+        });
+        const data = await response.json();
+        setJobs(data); // Simpan data ke state
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  // Hitung jumlah halaman total
+  const totalPages = Math.ceil(jobs.length / jobsPerPage);
 
   // Filter data untuk halaman saat ini
-  const currentJobs = jobList.slice(
+  const currentJobs = jobs.slice(
     (currentPage - 1) * jobsPerPage,
     currentPage * jobsPerPage
   );
 
+  // Fungsi untuk menangani perubahan halaman
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
@@ -119,28 +71,31 @@ const Job = () => {
           </div>
         </div>
 
+        {/* Tampilkan data job */}
         <div className="p-10 grid lg:grid-cols-3 gap-6">
           {currentJobs.map((job) => (
             <JobCard
               key={job.id}
-              title={job.title}
-              company={job.company}
+              title={job.role} // Gunakan properti dari respons API
+              company={`Employer ID: ${job.employer_id}`}
               location={job.location}
-              salary={job.salary}
-              description={job.description}
+              salary={`Rp. ${job.salary}`}
+              description={`Open date: ${job.open_date}, Close date: ${job.close_date}`}
               onDetailClick={() => setSelectedJob(job)}
             />
           ))}
         </div>
 
+        {/* Tampilkan detail job jika ada */}
         {selectedJob && (
           <JobDetail job={selectedJob} onClose={() => setSelectedJob(null)} />
         )}
 
+        {/* Pagination */}
         <div className="flex items-center justify-between p-4">
           <div className="p-4 text-center">
             <p className="text-sm text-gray-600">
-              Showing {currentPage} of {totalEntries} entries
+              Showing {currentPage} of {totalPages} pages
             </p>
           </div>
 

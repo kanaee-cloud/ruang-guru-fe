@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineDollar } from "react-icons/ai";
 import {
   FaBuilding,
@@ -12,6 +12,57 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 
 const JobDetail = ({ job, onClose }) => {
   const [files, setFiles] = useState([]);
+  const [employer, setEmployer] = useState(null);
+  console.log(job);
+
+  useEffect(() => {
+    const fetchEmployer = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+          console.error("No access token found");
+          return;
+        }
+
+        // Pastikan ada `job.employer_id` untuk menggantikan `{user_id}` dalam URL
+        if (!job || !job.employer_id) {
+          console.error("No employer ID found in job");
+          return;
+        }
+
+        // Lakukan fetch ke endpoint `/users/user/{user_id}`
+        const response = await fetch(
+          `http://localhost:8000/users/user/${job.employer_id}`,
+          {
+            method: "GET",
+            headers: {
+              // Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        // Periksa apakah respons berhasil
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Parse data JSON
+        const data = await response.json();
+        console.log("Fetched data:", data);
+
+        // Set employer dari data yang diambil
+        setEmployer(data.employer);
+      } catch (error) {
+        console.error("Error fetching employer data:", error);
+      }
+    };
+
+    // Panggil fetchEmployer jika `job` tersedia
+    if (job && job.employer_id) {
+      fetchEmployer();
+    }
+  }, [job]);
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files).map((file) => ({
@@ -30,10 +81,11 @@ const JobDetail = ({ job, onClose }) => {
       <div className="w-[1100px] h-[600px] bg-primary text-white p-5 rounded-2xl overflow-y-hidden">
         <div className="bg-[#2c3b63] h-[20%] p-4 rounded-xl flex justify-between items-center">
           <div>
-            <h1 className="lg:text-4xl font-medium mb-3">{job.title}</h1>
+            <h1 className="lg:text-4xl font-medium mb-3">{job.role}</h1>
             <p className="flex items-center gap-x-2 text-xl">
               <FaBuilding className="text-accents" />
-              {job.company}
+              {/* {job.employer_id} */}
+              {employer ? employer.company_name : "Loading..."}
             </p>
           </div>
           <button className=" text-accents" onClick={onClose}>
