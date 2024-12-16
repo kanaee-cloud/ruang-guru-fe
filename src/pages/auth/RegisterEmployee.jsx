@@ -8,7 +8,7 @@ const Register = () => {
     username: "",
     password: "",
     company_name: "",
-    company_phone_number: ""
+    company_phone_number: "",
   });
 
   const handleChange = (e) => {
@@ -27,6 +27,7 @@ const Register = () => {
       username: e.target.username.value || "",
       password: e.target.password.value || "",
       email: e.target.email.value || "",
+      is_superadmin: false,
       registered_at: new Date().toISOString(),
       disabled: false,
       jobseeker: null,
@@ -49,7 +50,8 @@ const Register = () => {
       formData.employer = {
         company_name: e.target.company_name?.value || "",
         company_description: e.target.company_description?.value || "",
-        company_phone_number: e.target.company_phone_number?.value || "1111111111111111",
+        company_phone_number:
+          e.target.company_phone_number?.value || "1111111111111111",
         company_address: e.target.company_address?.value || "",
         company_vision: e.target.company_vision?.value || "",
         company_mission: e.target.company_mission?.value || "",
@@ -107,7 +109,6 @@ const Register = () => {
             <div className="w-full sm:w-3/4 sm:flex-row gap-4 mt-10 bg-white shadow-md">
               <div className="flex flex-col justify-center p-7">
                 <div className=" flex flex-col mx-auto text-center">
-                  
                   <h1 className="font-semibold">Create An Account</h1>
                 </div>
                 <form
@@ -160,8 +161,12 @@ const Register = () => {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label htmlFor="company_phone_number" className="font-semibold text-xs">
-                      Company Phone Number <span className="text-red-600">*</span>
+                    <label
+                      htmlFor="company_phone_number"
+                      className="font-semibold text-xs"
+                    >
+                      Company Phone Number{" "}
+                      <span className="text-red-600">*</span>
                     </label>
                     <input
                       name="company_phone_number"
