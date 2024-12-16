@@ -19,7 +19,7 @@ const Settings = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("access_token"); 
+        const token = localStorage.getItem("access_token");
         const response = await fetch("http://localhost:8000/users/profile", {
           method: "GET",
           headers: {
@@ -50,10 +50,7 @@ const Settings = () => {
 
     const updatedEmail = {
       ...profile,
-      jobseeker: {
-        ...profile.jobseeker,
-        email: newEmail, 
-      },
+      email: newEmail,
     };
 
     try {

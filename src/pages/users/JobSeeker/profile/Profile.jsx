@@ -15,6 +15,7 @@ const Profile = () => {
   const [isWorkModalOpen, setIsWorkModalOpen] = useState(false);
   const [isFileModalOpen, setIsFileModalOpen] = useState(false);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [resumeUrl, setResumeUrl] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -89,6 +90,41 @@ const Profile = () => {
         const data = await response.json();
         console.log("Updated profile:", data); // Log updated profile data
         setProfile(data); // Update profile with new data
+      } else {
+        console.error("Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  const updateResume = async (newResumeUrl) => {
+    const token = localStorage.getItem("access_token");
+
+    const updatedProfile = {
+      ...profile,
+      jobseeker: {
+        ...profile.jobseeker,
+        resume: newResumeUrl, // Update resume URL here
+      },
+    };
+
+    try {
+      const response = await fetch("http://localhost:8000/users/profile", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProfile),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Updated profile:", data);
+        setProfile(data); // Update profile with new data
+        setResumeUrl(newResumeUrl); // Update resume URL in state
       } else {
         console.error("Failed to update profile");
       }
@@ -196,7 +232,12 @@ const Profile = () => {
                 </div>
                 <div className="bg-white rounded-md shadow-lg w-1/2 p-5 flex items-start flex-col gap-y-2">
                   <h1 className="font-semibold text-xl md:text-2xl">Resume</h1>
-                  <p className="text-sm">Upload your resume.</p>
+                  <p className="text-sm">
+                    {profile.jobseeker.cv.trim() !== ""
+                      ? profile.jobseeker.cv
+                      : "Add your CV"}
+                  </p>
+                  
                   <button
                     className="text-sm border border-primary px-4 py-1 rounded-lg"
                     onClick={openResumeModal}
@@ -215,7 +256,7 @@ const Profile = () => {
         {isEditModalOpen && <EditProfile onClose={closeEditModal} />}
         {isWorkModalOpen && <AddPosition onClose={closeWorkModal} />}
         {isFileModalOpen && <AddCV onClose={closeFileModal} />}
-        {isResumeModalOpen && <AddResume onClose={closeResumeModal} />}
+        {isResumeModalOpen && <AddResume onClose={closeResumeModal}/>}
       </DashboardLayout>
     </>
   );
