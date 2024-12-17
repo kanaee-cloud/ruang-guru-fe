@@ -34,7 +34,7 @@ const JobDetail = ({ job, onClose }) => {
         }
 
         const response = await fetch(
-          `http://localhost:8000/users/user/${job.employer_id}`,
+          `https://ruang-nganggur-fast-api.vercel.app/users/user/${job.employer_id}`,
           {
             method: "GET",
             headers: {
@@ -63,7 +63,7 @@ const JobDetail = ({ job, onClose }) => {
           return;
         }
 
-        const response = await fetch("http://localhost:8000/users/profile", {
+        const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/users/profile", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ const JobDetail = ({ job, onClose }) => {
 
       console.log("Payload:", JSON.stringify(payload));
 
-      const response = await fetch("http://localhost:8000/applicants/", {
+      const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/applicants/", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

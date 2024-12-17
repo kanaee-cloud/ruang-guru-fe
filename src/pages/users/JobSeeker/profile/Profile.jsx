@@ -41,7 +41,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("access_token"); // Assuming token is stored in localStorage
-        const response = await fetch("http://localhost:8000/users/profile", {
+        const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/users/profile", {
           method: "GET",
           headers: {
             Accept: "application/json",
@@ -78,7 +78,7 @@ const Profile = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/users/profile", {
+      const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/users/profile", {
         method: "PUT",
         headers: {
           Accept: "application/json",
@@ -111,7 +111,7 @@ const Profile = () => {
         },
       };
 
-      const response = await fetch("http://localhost:8000/users/profile", {
+      const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/users/profile", {
         method: "PUT",
         headers: {
           Accept: "application/json",
@@ -143,7 +143,7 @@ const Profile = () => {
         },
       };
 
-      const response = await fetch("http://localhost:8000/users/profile", {
+      const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/users/profile", {
         method: "PUT",
         headers: {
           Accept: "application/json",

@@ -23,7 +23,7 @@ const Navbar = () => {
     setIsLoggedIn(!!token);
 
     if (token) {
-      fetch("http://localhost:8000/users/profile", {
+      fetch("https://ruangng-nganggur-fast-api.vercel.app/users/profile", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -106,7 +106,13 @@ const Navbar = () => {
         <div className="hidden lg:flex gap-x-3 items-center rounded-lg ">
           {profile === 200 ? (
             <>
-              <a href= {profile?.role === "jobseeker" ? "/users/profile" : "/users/employee/profile"}>
+              <a
+                href={
+                  profile?.role === "jobseeker"
+                    ? "/auth/success"
+                    : "/auth/success"
+                }
+              >
                 <img
                   src={profile?.image || "/assets/no-profile.png"}
                   alt="Profile"

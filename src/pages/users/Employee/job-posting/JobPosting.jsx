@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DashboardLayout from "../../../../components/layout/DashboardLayout";
 import { FaArrowLeft } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const JobPosting = () => {
   const [formData, setFormData] = useState({
@@ -38,7 +39,7 @@ const JobPosting = () => {
     try {
       // Pertama, ambil data profile pengguna
       const profileResponse = await fetch(
-        "http://localhost:8000/users/profile",
+        "https://ruang-nganggur-fast-api.vercel.app/users/profile",
         {
           method: "GET",
           headers: {
@@ -65,7 +66,7 @@ const JobPosting = () => {
       };
 
       // Lanjutkan untuk mengirim request posting pekerjaan
-      const jobResponse = await fetch("http://localhost:8000/jobs/", {
+      const jobResponse = await fetch("https://ruang-nganggur-fast-api.vercel.app/jobs/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +77,11 @@ const JobPosting = () => {
 
       if (jobResponse.ok) {
         const data = await jobResponse.json();
-        alert("Job posting created successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: "Redirecting to your profile...",
+        });
         console.log("Job Data:", data);
         // Reset form
         setFormData({
@@ -233,8 +238,8 @@ const JobPosting = () => {
                 className="border border-gray-300 rounded-lg p-2"
                 required
               >
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
             </div>
 

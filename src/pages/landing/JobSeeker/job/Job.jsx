@@ -14,8 +14,12 @@ const Job = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch("http://localhost:8000/jobs/", {
-          headers: { accept: "application/json" },
+        const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/jobs/", {
+          headers: { 
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          
         });
         const data = await response.json();
         setJobs(data); // Simpan data ke state

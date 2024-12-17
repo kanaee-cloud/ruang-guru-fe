@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/auth/token", {
+      const response = await fetch("https://ruang-nganggur-fast-api.vercel.app/auth/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
